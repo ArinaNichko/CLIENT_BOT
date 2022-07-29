@@ -1,5 +1,6 @@
 import asyncio
 
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 import logging
 import os
@@ -12,7 +13,7 @@ print(TOKEN)
 service_bot = Bot(token='5493235478:AAHGDhBrc1JZE0S3fQoy0Vfpmz3np6Ejoa0')
 print(service_bot)
 client_bot = Bot(token='5444500594:AAE92u7a7mT2fWDFhSXRA8qs7eDpVP0ovZM')
-dp = Dispatcher(client_bot)
+dp = Dispatcher(client_bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
 HEROKU_APP_NAME = os.getenv('HEROKU_APP_NAME')
 WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
