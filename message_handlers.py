@@ -8,7 +8,7 @@ from aiogram.utils.executor import start_webhook
 from database import session as db
 from models import Event
 from client_bot import states
-from app import client_bot, dp, service_bot, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
+from config import client_bot, dp, service_bot, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 # Инициализируем бота
 from client_bot.payments import Payment
 from client_bot.resource import mess_info, mess_start, mess_usually_post, mess_for_em, mess_for_complete, m1
