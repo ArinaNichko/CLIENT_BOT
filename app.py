@@ -34,7 +34,7 @@ if not BOT_TOKEN:
 
 
 async def on_startup(dp):
-    await client_bot.set_webhook(WEBHOOK_URL)
+    await client_bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
     # insert code here to run it after start
 
 
@@ -54,7 +54,7 @@ async def on_shutdown(dp):
 
 print(WEBHOOK_PATH)
 if __name__ == '__main__':
-
+    logging.basicConfig(level=logging.INFO)
     start_webhook(
         dispatcher=dp,
         webhook_path=WEBHOOK_PATH,
