@@ -181,10 +181,12 @@ async def bot_post(message: types.Message, state: FSMContext):
     await message.answer(m1, parse_mode='html')
     mess = f'🔵 Активно  \n{branch}\n\n{details}\nЦіна:{price} \n#Захищенийпост'
     markup = types.InlineKeyboardMarkup()
+    url=f'https://t.me/ChatForWorkKyivBot/?start=test{message.from_user.id}_e{event.id}'
     button_check_event = types.InlineKeyboardButton(
         "Зв'язатися",
         url=f'https://t.me/ChatForWorkKyivBot/?start=test{message.from_user.id}_e{event.id}')
     print(message.from_user.id)
+    print(re.match(r'^/start test(\d*)_e(\d+)$', url).groups())
     markup.add(button_check_event)
     await message.answer(mess)
     post_message = await client_bot.send_message(id_channel, mess, reply_markup=markup)
