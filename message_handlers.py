@@ -1,15 +1,17 @@
+import logging
 import re
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
+from aiogram.utils.executor import start_webhook
 from database import session as db
 from models import Event
-from . import states
-from app import client_bot, dp, service_bot
+from client_bot import states
+from app import client_bot, dp, service_bot, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 # Инициализируем бота
-from .payments import Payment
-from .resource import mess_info, mess_start, mess_usually_post, mess_for_em, mess_for_complete, m1
+from client_bot.payments import Payment
+from client_bot.resource import mess_info, mess_start, mess_usually_post, mess_for_em, mess_for_complete, m1
 from client_bot.states import ChatMode
 
 id_channel = '@fortestingworkforkyiv'
@@ -350,3 +352,38 @@ async def state_chatid(message: types.Message, state: FSMContext):
             mess = f'Вам прийшло повідомлення:\n\n{message.text} \n\nВід: @{message.from_user.username}'
             return await service_bot.send_message(
                 chat_id, mess)
+
+
+
+async def on_startup(dp):
+    await client_bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
+    # insert code here to run it after start
+
+
+async def on_shutdown(dp):
+    logging.warning('Shutting down..')
+
+    # insert code here to run it before shutdown
+
+    # Remove webhook (not acceptable in some cases)
+    await client_bot.delete_webhook()
+
+    # Close DB connection (if used)
+    await dp.storage.close()
+    await dp.storage.wait_closed()
+
+    logging.warning('Bye!')
+
+print(WEBHOOK_PATH)
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    start_webhook(
+        dispatcher=dp,
+        webhook_path=WEBHOOK_PATH,
+        skip_updates=True,
+        on_startup=on_startup,
+        on_shutdown=on_shutdown,
+        host=WEBAPP_HOST,
+        port=WEBAPP_PORT,
+    )
+

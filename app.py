@@ -15,7 +15,7 @@ client_bot = Bot(token='5444500594:AAE92u7a7mT2fWDFhSXRA8qs7eDpVP0ovZM')
 dp = Dispatcher(client_bot)
 dp.middleware.setup(LoggingMiddleware())
 HEROKU_APP_NAME = os.getenv('HEROKU_APP_NAME')
-WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com/'
+WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
 WEBHOOK_PATH = f'/webhook/{TOKEN}'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
 WEBAPP_HOST = '0.0.0.0'
@@ -28,35 +28,3 @@ if not TOKEN:
     print('You have forgot to set BOT_TOKEN')
     quit()
 
-
-async def on_startup(dp):
-    await client_bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
-    # insert code here to run it after start
-
-
-async def on_shutdown(dp):
-    logging.warning('Shutting down..')
-
-    # insert code here to run it before shutdown
-
-    # Remove webhook (not acceptable in some cases)
-    await client_bot.delete_webhook()
-
-    # Close DB connection (if used)
-    await dp.storage.close()
-    await dp.storage.wait_closed()
-
-    logging.warning('Bye!')
-
-print(WEBHOOK_PATH)
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    start_webhook(
-        dispatcher=dp,
-        webhook_path=WEBHOOK_PATH,
-        on_startup=on_startup,
-        on_shutdown=on_shutdown,
-        skip_updates=True,
-        host=WEBAPP_HOST,
-        port=WEBAPP_PORT,
-    )
