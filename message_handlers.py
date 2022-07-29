@@ -186,7 +186,8 @@ async def bot_post(message: types.Message, state: FSMContext):
         "Зв'язатися",
         url=f'https://t.me/ChatForWorkKyivBot/?start=test{message.from_user.id}_e{event.id}')
     print(message.from_user.id)
-    print(re.match(r'^/start test(\d*)_e(\d+)$', url).groups())
+    b = url[33:]
+    print(re.match(r'^/start test(\d*)_e(\d+)$', b).groups())
     markup.add(button_check_event)
     await message.answer(mess)
     post_message = await client_bot.send_message(id_channel, mess, reply_markup=markup)
