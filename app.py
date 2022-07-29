@@ -24,7 +24,8 @@ WEBHOOK_PATH = f'/webhook/{BOT_TOKEN}'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
 WEBAPP_HOST = '0.0.0.0'
 DEFAULT_PORT = 5000
-WEBAPP_PORT = int(os.getenv('PORT'), DEFAULT_PORT)
+# WEBAPP_PORT = int(os.getenv('PORT'), DEFAULT_PORT)
+WEBAPP_PORT = os.getenv('PORT', default=8000)
 
 
 if not BOT_TOKEN:
