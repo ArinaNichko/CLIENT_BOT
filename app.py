@@ -15,7 +15,7 @@ client_bot = Bot(token='5444500594:AAE92u7a7mT2fWDFhSXRA8qs7eDpVP0ovZM')
 dp = Dispatcher(client_bot)
 dp.middleware.setup(LoggingMiddleware())
 HEROKU_APP_NAME = os.getenv('HEROKU_APP_NAME')
-WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
+WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com/'
 WEBHOOK_PATH = f'/webhook/{TOKEN}'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
 WEBAPP_HOST = '0.0.0.0'
