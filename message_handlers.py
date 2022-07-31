@@ -9,7 +9,6 @@ from database import session as db
 from models import Event
 from client_bot import states
 from config import client_bot, dp, service_bot, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
-# Инициализируем бота
 from client_bot.payments import Payment
 from client_bot.resource import mess_info, mess_start, mess_usually_post, mess_for_em, mess_for_complete, m1
 from client_bot.states import ChatMode
@@ -82,18 +81,10 @@ async def bot_price(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         salary = data['price']
         event_id = data['event']
-    # print("salary")
-    # print(salary)
-    # print("event_id")
-    # print(event_id)
     event = Event.get(event_id)
-    # print('event')
-    # print(event)
     price = (float(salary) + (float(salary) * 0.09))
     percent = (float(salary) * 0.09)
     order_id = event.id
-    # print(order_id)
-    # print('order')
     markup = types.InlineKeyboardMarkup()
     p = Payment()
     url = Payment.generate_new_url_for_pay(p, order_id, price)
@@ -125,10 +116,6 @@ async def process_enter_chat(message: types.Message, state: FSMContext) -> None:
         chat_id = data['ChatId']
         event = Event.get(event_id)
         order_id = event.id
-        # print("name")
-        # print(user_name)
-        # print("event_id")
-        # print(event_id)
         await client_bot.send_message(
             admin,
             f'Підтвердежена оплата: id-замовлення {order_id} робітник- @{user_name}',
@@ -181,13 +168,9 @@ async def bot_post(message: types.Message, state: FSMContext):
     await message.answer(m1, parse_mode='html')
     mess = f'🔵 Активно  \n{branch}\n\n{details}\nЦіна:{price} \n#Захищенийпост'
     markup = types.InlineKeyboardMarkup()
-    url=f'https://t.me/ChatForWorkKyivBot/?start=test{message.from_user.id}_e{event.id}'
     button_check_event = types.InlineKeyboardButton(
         "Зв'язатися",
         url=f'https://t.me/ChatForWorkKyivBot/?start=test{message.from_user.id}_e{event.id}')
-    print(message.from_user.id)
-    b = url[33:]
-    print(re.match(r'^start=test(\d*)_e(\d+)$', b).groups())
     markup.add(button_check_event)
     await message.answer(mess)
     post_message = await client_bot.send_message(id_channel, mess, reply_markup=markup)
@@ -297,7 +280,6 @@ async def answer_branch(message: types.Message, state: FSMContext):
 async def process_enter_chat(callback_query: CallbackQuery, state: FSMContext) -> None:
     await ChatMode.ChatId.set()
     user_id = callback_query.data[7:]
-    print(user_id)
     async with state.proxy() as data:
         data['ChatId'] = user_id
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -322,9 +304,6 @@ async def process_no_chat(callback_query: CallbackQuery, state: FSMContext) -> N
         data['price'] = price
         data['user'] = user
         data['event'] = event_id
-    print('event id')
-    print(event_id)
-    # chat = callback_query.data[9:]
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     salary = types.KeyboardButton("Оплата")
     success = types.KeyboardButton("Підтвердити оплату")
@@ -336,7 +315,6 @@ async def process_no_chat(callback_query: CallbackQuery, state: FSMContext) -> N
         'Тепер Ви можете оплатити, після оплати натисніть кнопку "Підтвердити оплату"',
         reply_markup=markup
     )
-    # await service_bot.send_message(chat_id, f'Ціна не була підтверджена \n\nВід: @{message.from_user.username}')
     await ChatMode.ChatId.set()
     await service_bot.send_message(chat_id, f'Ціна була підтверджена')
 
@@ -358,21 +336,14 @@ async def state_chatid(message: types.Message, state: FSMContext):
                 chat_id, mess)
 
 
-
 async def on_startup(dp):
     await client_bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
-    # insert code here to run it after start
+
 
 
 async def on_shutdown(dp):
     logging.warning('Shutting down..')
-
-    # insert code here to run it before shutdown
-
-    # Remove webhook (not acceptable in some cases)
     await client_bot.delete_webhook()
-
-    # Close DB connection (if used)
     await dp.storage.close()
     await dp.storage.wait_closed()
 

@@ -3,7 +3,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 import os
 from aiogram.dispatcher import Dispatcher
-from aiogram import Bot, types
+from aiogram import Bot
 
 TOKEN = os.getenv('BOT_TOKEN')
 print(TOKEN)
@@ -18,7 +18,6 @@ WEBHOOK_PATH = f'/webhook/{TOKEN}'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
 WEBAPP_HOST = '0.0.0.0'
 DEFAULT_PORT = 5000
-# WEBAPP_PORT = int(os.getenv('PORT'), DEFAULT_PORT)
 WEBAPP_PORT = os.getenv('PORT', default=8000)
 
 
