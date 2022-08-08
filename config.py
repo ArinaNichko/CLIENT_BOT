@@ -7,9 +7,9 @@ from aiogram import Bot
 
 TOKEN = os.getenv('BOT_TOKEN')
 print(TOKEN)
-service_bot = Bot(token='5493235478:AAHGDhBrc1JZE0S3fQoy0Vfpmz3np6Ejoa0')
+service_bot = Bot(token='SERVICE_BOT_TOKEN')
 print(service_bot)
-client_bot = Bot(token='5444500594:AAE92u7a7mT2fWDFhSXRA8qs7eDpVP0ovZM')
+client_bot = Bot(token='BOT_TOKEN')
 dp = Dispatcher(client_bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
 HEROKU_APP_NAME = os.getenv('HEROKU_APP_NAME')

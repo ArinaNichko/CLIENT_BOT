@@ -5,10 +5,8 @@ from client_bot.liqpay import LiqPay
 import requests
 from datetime import datetime
 
-public_key = "sandbox_i79947420140"
-private_key = "sandbox_fj5G6veO0Z6j6evzeJe9fuo9mJkATuwNWVGvdDOf"
-amount = 300
-order_id = 101
+public_key = "i35726157240"
+private_key = "IYKnnds4nCgejIuLaCXbfRr8LbwKrho6MaYPTqJ4"
 
 
 
