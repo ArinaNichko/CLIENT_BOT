@@ -7,8 +7,8 @@ from aiogram import Bot
 
 TOKEN = os.getenv('BOT_TOKEN')
 print(TOKEN)
-client_bot = Bot(token='BOT_TOKEN')
-service_bot = Bot(token='SERVICE_BOT_TOKEN')
+client_bot = Bot(token='5444500594:AAE92u7a7mT2fWDFhSXRA8qs7eDpVP0ovZM')
+service_bot = Bot(token='5493235478:AAHGDhBrc1JZE0S3fQoy0Vfpmz3np6Ejoa0')
 print(service_bot)
 dp = Dispatcher(client_bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
